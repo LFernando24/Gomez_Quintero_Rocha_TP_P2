@@ -1,0 +1,41 @@
+using P2.Modelos;
+using SistemaGimnasio.Gestores;
+using SistemaGimnasio.Modelos;
+using SistemaGimnasio.Servicios;
+using Xunit;
+
+namespace SistemaGestionGimnasio.Test
+{
+    public class AsignadorRutinaTest
+    {
+        [Fact]
+        public void AsignarRutinaAlUsuario_DebeAsingarCorrectamente()
+        {
+            //Arrange
+            Usuario usuario = new Usuario("Juan", 20, "Musculo");
+            AgregadorRutinas asignador = new AgregadorRutinas(new GestorRutinas());
+            Rutina rutina = new Rutina("Brazo", 120);
+
+            //Act
+            asignador.AsignarRutinaUsuario(usuario, rutina);
+
+            //Assert
+            Assert.Equal(rutina, usuario.RutinaAsignada);
+        }
+
+        [Fact]
+        public void AsignarUsuarioAlEntrenador_DebeIncluirUsuario()
+        {
+            //Arrange
+            Usuario usuario = new Usuario("Juan", 20, "Musculo");
+            AgregadorRutinas asignador = new AgregadorRutinas(new GestorRutinas());
+            Entrenador entrenador = new Entrenador("Pancho", "Musculo");
+
+            //Act
+            asignador.AsignarUsuarioAlEntrenador(entrenador, usuario);
+
+            //Assert
+            Assert.Contains(usuario, entrenador.ObtenerUsuariosAsignados());
+        }
+    }
+}
